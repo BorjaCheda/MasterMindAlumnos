@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MasterMind</title>
+  <style>
+    #botonJugar:hover {
+      color: white;
+      background-color: grey;
+    }
+  </style>
+</head>
+<body>
+<h1>Juego del MasterMind</h1>
+<p>Debe adivinar un número de 4 cifras distintas.
+  En cada intento, le informamos de cuantas cifras ha acertado y si esas cifras están en la posición correcta.</p>
+<p>Ejemplo: Si el número secreto es 1234 y su intento es 1240 indicaremos: 2 bien colocados, 1 mal colocado.
+  Tiene un número de aciertos limitado </p>
+<br/>
+<p id="texto">No está cogiendo javaScript</p>
+<form method="post" action="#" th:action="@{/nuevoJuego}" th:object="${formInfo}">
+  <label>¿Cuantos intentos quieres tener?</label>
+  <input type="text" id="MAX_INTENTOS" th:field="*{MAX_INTENTOS}">
+  <label>¿Qué tamaño quieres que tenga el número a adivinar?</label>
+  <select name="TAM_NUMERO" size="1" th:field="*{TAM_NUMERO}">
+    <option value="1">Uno</option>
+    <option value="2">Dos</option>
+    <option value="3">Tres</option>
+    <option value="4">Cuatro</option>
+    <option value="5">Cinco</option>
+    <option value="6">Seis</option>
+  </select>
+  <input type="submit" value="Jugar" id="botonJugar"/>
+</form>
+<script src="/js/script.js"></script>
+</body>
+</html>

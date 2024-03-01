@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MasterMind</title>
+    <style>
+        #estado { background-color: grey; }
+        #error {
+            font-weight: bold;
+            display: inline-flex;
+        }
+    </style>
+</head>
+<body>
+<h1>MasterMind</h1>
+<span>
+<h2 id="estado">Estado de juego: <span th:text="${estadoJuego}" id="estadoReal">estado</span></h2>
+</span>
+    <br/><br/>
+<p>NUEVO INTENTO: (Recuerda que el tamaño del número a introducir será de
+    <span th:text="${formInfo.TAM_NUMERO}">*</span> dígitos, y que no están repetidos)</p>
+<p>Hasta que no introduzcas correctamente el número, el botón de enviar no estará disponible ni visible.</p>
+<form method="post" action="#" th:action="@{/juego}" th:object="${formInfo}">
+    <input type="text" id="intento" th:field="*{intento}" oninput="validarNumero()" >
+    <input type="submit" value="Enviar" style="visibility: visible" id="enviarNumero"/>
+    <p id="error"></p>
+</form>
+<p>El número de intentos que llevas realizado son: <span th:text="${numeroVecesIntentadas}">numeroVecesIntentadas</span>. </p>
+<p>OJO!!! TE QUEDAN <span th:text="${formInfo.MAX_INTENTOS - numeroVecesIntentadas}">*</span> INTENTOS. TÚ PUEDES!!!</p>
+<p>LISTA DE INTENTOS:</p>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Número Introducido</th>
+        <th>Bien colocados</th>
+        <th>Mal colocados</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="intento : ${listaIntentos}">
+        <td th:text="${intento.combinacion}">comb</td>
+        <td th:text="${intento.bienColocados}">bienColocados</td>
+        <td th:text="${intento.malColocados}">malColocados</td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<a th:href="@{/}" id="botonInicio">Inicio</a><br/>
+<script th:inline="javascript">
+
+    var estadoJuego = /*[[${estadoJuego}]]*/ '';
+    var longitudMaximaPermitida = /*[[${formInfo.TAM_NUMERO}]]*/ '';
+    var listaIntentos = /*[[${listaIntentos}]]*/ '';
+
+    var fondoestadoJuego = document.getElementById("estado");
+    var botonEnviar = document.getElementById("enviarNumero");
+    var botonInicio = document.getElementById("botonInicio");
+
+    document.getElementById("enviarNumero").style.visibility = "hidden";
+
+    if (estadoJuego === 'GANO') {
+        fondoestadoJuego.style.backgroundColor = "green";
+        botonEnviar.style.visibility = "hidden";
+        botonInicio.innerHTML = "Volver a jugar";
+        alert('¡Enhorabuena! ¡Has ganado!');
+    }
+    if (estadoJuego === 'PERDIO') {
+        fondoestadoJuego.style.backgroundColor = "red";
+        botonEnviar.style.visibility = "hidden";
+        botonInicio.innerHTML = "Volver a jugar";
+        alert('¡HAS PERDIDO! MÁS SUERTE LA PRÓXIMA VEZ');
+    }
+
+    if (estadoJuego === 'JUGANDO') {
+        // Funciones para que el texto parpadee en intervalos de 0,50 segundos
+        setInterval(parpadeatexto, 500);
+        setInterval(parpadeatexto2, 1000);
+        function parpadeatexto(){
+            fondoestadoJuego.style.visibility = "visible";
+        }
+        function parpadeatexto2(){
+            fondoestadoJuego.style.visibility = "hidden";
+        }
+    }
+
+    function validarNumero() {
+        var numero = document.getElementById("intento").value;
+        var longitudNumeroIntroducido = numero.length;
+
+        var esNumerico = /^\d+$/.test(numero);
+
+        if (esNumerico) {
+            document.getElementById("enviarNumero").style.visibility = "visible";
+            error.style.color = "green";
+            error.innerHTML = "NUMERO CORRECTO";
+        } else {
+            error.style.color = "red";
+            error.innerHTML = "Error! El número solo puede contener dígitos";
+            document.getElementById("enviarNumero").style.visibility = "hidden";
+        }
+
+        if (longitudNumeroIntroducido == longitudMaximaPermitida) {
+            document.getElementById("enviarNumero").style.visibility = "visible";
+            error.style.color = "green";
+            error.innerHTML = "NUMERO CORRECTO";
+        } else {
+            error.style.color = "red";
+            error.innerHTML = "Error! El número introducido debe de tener exactamente: " + longitudMaximaPermitida + " dígitos.";
+            document.getElementById("enviarNumero").style.visibility = "hidden";
+        }
+
+        listaIntentos.forEach(function(lista){
+            alert(lista.combinacion);
+        });
+
+    }
+
+
+</script>
+</body>
+</html>
