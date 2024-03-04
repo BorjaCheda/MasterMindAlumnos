@@ -19,7 +19,6 @@
 <p>Ejemplo: Si el número secreto es 1234 y su intento es 1240 indicaremos: 2 bien colocados, 1 mal colocado.
   Tiene un número de aciertos limitado </p>
 <br/>
-<p id="texto">No está cogiendo javaScript</p>
 <form method="post" action="#" th:action="@{/nuevoJuego}" th:object="${formInfo}">
   <label>¿Cuantos intentos quieres tener?</label>
   <input type="text" id="MAX_INTENTOS" th:field="*{MAX_INTENTOS}">
