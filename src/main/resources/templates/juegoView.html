@@ -57,38 +57,44 @@
     var fondoestadoJuego = document.getElementById("estado");
     var botonEnviar = document.getElementById("enviarNumero");
     var botonInicio = document.getElementById("botonInicio");
+    var inputIntentos = document.getElementById("intento");
 
-    document.getElementById("enviarNumero").style.visibility = "hidden";
+    botonEnviar.style.visibility = "hidden";
 
     if (estadoJuego === 'GANO') {
         fondoestadoJuego.style.backgroundColor = "green";
         botonEnviar.style.visibility = "hidden";
+        inputIntentos.disabled = true;
         botonInicio.innerHTML = "Volver a jugar";
         alert('¡Enhorabuena! ¡Has ganado!');
     }
     if (estadoJuego === 'PERDIO') {
         fondoestadoJuego.style.backgroundColor = "red";
         botonEnviar.style.visibility = "hidden";
+        inputIntentos.disabled = true;
         botonInicio.innerHTML = "Volver a jugar";
         alert('¡HAS PERDIDO! MÁS SUERTE LA PRÓXIMA VEZ');
     }
 
+    /*setInterval(parpadeatexto, 500);
+    setInterval(parpadeatexto2, 1000);
+
     if (estadoJuego === 'JUGANDO') {
         // Funciones para que el texto parpadee en intervalos de 0,50 segundos
-        setInterval(parpadeatexto, 500);
-        setInterval(parpadeatexto2, 1000);
-        function parpadeatexto(){
-            fondoestadoJuego.style.visibility = "visible";
-        }
-        function parpadeatexto2(){
-            fondoestadoJuego.style.visibility = "hidden";
-        }
+        parpadeatexto(fondoestadoJuego);
+        parpadeatexto2(fondoestadoJuego);
     }
+
+    function parpadeatexto(estado){
+        estado.style.visibility = "visible";
+    }
+    function parpadeatexto2(estado){
+        estado.style.visibility = "hidden";
+    } */
 
     function validarNumero() {
         var numero = document.getElementById("intento").value;
         var longitudNumeroIntroducido = numero.length;
-
         var esNumerico = /^\d+$/.test(numero);
 
         if (esNumerico) {
@@ -112,9 +118,13 @@
         }
 
         listaIntentos.forEach(function(lista){
-            alert(lista.combinacion);
+            if (numero == lista.combinacion){
+                error.style.color = "red";
+                error.innerHTML = "Ya has probado con este número! Inserta otro distinto!";
+                document.getElementById("enviarNumero").style.visibility = "hidden";
+                alert ("Número Introducido Previamente");
+            }
         });
-
     }
 
 

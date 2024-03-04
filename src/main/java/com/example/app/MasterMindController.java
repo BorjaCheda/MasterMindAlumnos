@@ -26,15 +26,14 @@ public class MasterMindController {
     public String showGame(@ModelAttribute("formInfo") FormInfo formInfo, Model model) {
         model.addAttribute("listaIntentos", masterMindService.masterMind.getListaIntentos());
         model.addAttribute("estadoJuego", masterMindService.masterMind.getEstadoJuego());
-        model.addAttribute("numeroVecesIntentadas", masterMindService.masterMind.getNumeroVecesIntentadas());
+        model.addAttribute("numeroVecesIntentadas", (masterMindService.masterMind.getNumeroVecesIntentadas() + 1));
         return "juegoView";
     }
 
     @PostMapping("/juego")
-    public String newTry(@ModelAttribute("formInfo") FormInfo formInfo) {
+    public String newTry(@ModelAttribute("formInfo") FormInfo formInfo, Model model) {
 
         masterMindService.comprobarIntento(formInfo.getIntento(), formInfo);
-
         return "redirect:/juego";
 
     }

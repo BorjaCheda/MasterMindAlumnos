@@ -16,8 +16,6 @@ public class MasterMindService {
 
     public MasterMind masterMind;
 
-    int numeroIntentos, intentosRestantes = 0;
-
     public void nuevoJuego(FormInfo formInfo) {
         masterMind = new MasterMind();
         do {
@@ -43,10 +41,11 @@ public class MasterMindService {
             else if (numeroSecreto.indexOf(letra) != -1)
                 malColocados++;
         }
+        Integer numeroVecesIntentadas = masterMind.getNumeroVecesIntentadas();
         masterMind.getListaIntentos().add(new Intento(intento, bienColocados, malColocados));
         if (bienColocados == Integer.parseInt(formInfo.getTAM_NUMERO()))
             masterMind.setEstadoJuego(EstadoJuego.GANO);
-        if (masterMind.getListaIntentos().size() >= Integer.parseInt(formInfo.getMAX_INTENTOS()))
+        if (bienColocados != Integer.parseInt(formInfo.getTAM_NUMERO()) && (Integer.parseInt(formInfo.getMAX_INTENTOS()) < numeroVecesIntentadas))
             masterMind.setEstadoJuego(EstadoJuego.PERDIO);
     }
 

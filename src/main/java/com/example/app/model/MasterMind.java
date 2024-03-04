@@ -8,7 +8,7 @@ public class MasterMind {
     private String numeroSecreto;
     private ArrayList<Intento> listaIntentos;
     private EstadoJuego estadoJuego;
-    private Integer numeroVecesIntentadas = 0;
+    private Integer numeroVecesIntentadas =0;
     public MasterMind() {
         listaIntentos = new ArrayList<>();
     }
